@@ -1,0 +1,30 @@
+/* 
+  Localizable.strings
+  Foodipedia
+
+  Created by Krishantha Jayathilake on 2022-07-12.
+  
+*/
+
+// Common
+
+"loading" = "Loading";
+"error_title" = "Error";
+"generic_error" = "Something went wrong, please try again";
+"product_not_found" = "Product not found";
+"ok" = "OK";
+
+"hello" = "HELLO!";
+
+// Product Details
+
+"carbs" = "CARBS";
+"fat" = "FAT";
+"protein" = "PROTEIN";
+
+"reload" = "RELOAD";
+"start" = "START";
+
+"zero_percentage" = "0%";
+"calories_per_serving" = "Calories per serving";
+
