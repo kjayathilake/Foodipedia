@@ -13,9 +13,15 @@ protocol ProductService: AnyObject {
 
 class ProductServiceImpl: ProductService {
     
+    let manager: NetworkManager
+    
+    init(manager: NetworkManager = NetworkManager()) {
+        self.manager = manager
+    }
+    
     func fetchProduct(route: NetworkRouter, completion: @escaping (Result<ProductResponse, ProductError>) -> Void) {
-        guard let request = buildRequest(route: route) else { return }
-        loadRequest(request: request) { data, response, error in
+        guard let request = manager.buildRequest(route: route) else { return }
+        manager.loadRequest(request: request) { data, response, error in
             DispatchQueue.main.async {
 
                 guard error == nil, data != nil, let response = response as? HTTPURLResponse else {
@@ -40,24 +46,5 @@ class ProductServiceImpl: ProductService {
                 completion(.success(item))
             }
         }
-    }
-    
-    private func loadRequest(request: URLRequest, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
-        let task = URLSession.shared.dataTask(with: request, completionHandler: completion)
-        task.resume()
-    }
-    
-    private func buildRequest(route: NetworkRouter) -> URLRequest? {
-        var components = URLComponents(string: route.baseURL)!
-        components.path = route.path
-        var queryItems: [URLQueryItem] = []
-        for (key, value) in route.params {
-            queryItems.append(URLQueryItem(name: key, value: value))
-        }
-        components.queryItems = queryItems
-        var request = URLRequest(url: components.url!, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 10.0)
-        request.httpMethod = route.httpMethod
-        
-        return request
     }
 }

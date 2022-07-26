@@ -26,7 +26,7 @@ enum ProductError: DomainError {
         case .productNotFound:
             return Constants.productNotFound
         case .somethingWentWrong:
-            return Constants.genericError
+            return defaultError
         }
     }
 }
